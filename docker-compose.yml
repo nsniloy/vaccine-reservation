@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:5-alpine
+    ports:
+      - 6379:6379
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: app
+    container_name: app
+    restart: unless-stopped
+    environment:
+      - PORT=6001
+      - DB_URI=mongodb+srv://homage:homage@cluster0.pkrsd.mongodb.net
+      - DB_NAME=vaccine-reservation
+      - REDIS_HOST=redis
+      - REDIS_PORT="6379"
+      - ENVIRONMENT=develop
+
+    ports:
+      - "6001:6001"
+    command: bash -c "npm run start:debug"
+    volumes:
+      - ./src:/app/src
+    # depends_on:
+    #   - mongo
+volumes:
+  dbdata:
