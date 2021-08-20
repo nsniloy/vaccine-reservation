@@ -22,11 +22,22 @@ export class CentreRepositoryMongo extends CentreRepository {
         let centres: ICentre[] = await this.model.find(
             {
                 document_status: DocumentStatusType.Active
-            },{
+            },
+            {
                 document_status: 0, __v: 0
             }
         )
         return centres;
+    }
+
+    async findOne(id: string): Promise<ICentre> {
+        let centre: ICentre = await this.model.findById(
+            id,
+            {
+                document_status: 0, __v: 0
+            }
+        )
+        return centre;
     }
 
     async remove(id: string): Promise<void> {

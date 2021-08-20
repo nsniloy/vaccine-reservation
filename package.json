@@ -29,6 +29,7 @@
     "@nestjs/mongoose": "^8.0.0",
     "@nestjs/platform-express": "^7.6.13",
     "@nestjs/swagger": "^4.8.0",
+    "@types/moment": "^2.13.0",
     "cache-manager": "^3.4.0",
     "cache-manager-redis": "^0.6.0",
     "class-validator": "^0.13.1",

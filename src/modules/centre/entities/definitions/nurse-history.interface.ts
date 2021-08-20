@@ -1,6 +1,6 @@
 import { DocumentStatusType } from "@common/enums";
 
-export interface ISupplyHistory {
+export interface INurseHistory {
     _id?: any;
     nurse_name: string;
     start_time: Date;

@@ -5,7 +5,7 @@ import { Document } from 'mongoose';
 @Schema({
     timestamps: true
 })
-export class SupplyHistory extends Document {
+export class NurseHistory extends Document {
 
     @Prop({
         type: String,
@@ -27,6 +27,6 @@ export class SupplyHistory extends Document {
     document_status: DocumentStatusType;
 }
 
-export type SupplyHistoryDocument = Document<SupplyHistory>;
-export const SupplyHistorySchema = SchemaFactory.createForClass(SupplyHistory);
+export type NurseHistoryDocument = Document<NurseHistory>;
+export const NurseHistorySchema = SchemaFactory.createForClass(NurseHistory);
 
