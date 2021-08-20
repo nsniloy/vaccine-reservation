@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AdapterModule } from '@modules/adapter/adapter.module';
-import { CentresModule } from './modules/centres/centres.module';
+import { CentreModule } from '@modules/centre/centre.module';
 
 
 @Module({
@@ -25,7 +25,7 @@ import { CentresModule } from './modules/centres/centres.module';
     }),
     HttpModule,
     AdapterModule,
-    CentresModule
+    CentreModule
   ],
   controllers: [AppController],
   providers: [AppService],
