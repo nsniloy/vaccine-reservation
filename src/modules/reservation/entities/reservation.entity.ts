@@ -1,59 +1,64 @@
 import { DocumentStatusType } from '@common/enums/status.enum';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import * as Mongoose from 'mongoose'
-import { IBookingPayload, IItinerary, IPayloadPassenger } from '@modules/adapter/entities/definitions/booking-request.interface';
 
 @Schema({
     timestamps: true
 })
-export class BookingRequest implements IBookingPayload {
+export class Reservation extends Document {
 
     @Prop({
         type: String,
         required: true
     })
-    IPAddress: string;
+    full_name: string;
 
     @Prop({
         type: String,
         required: true
     })
-    TokenId: string;
+    email: string;
+
+    @Prop({
+        type: String,
+        required: true,
+        unique: true
+    })
+    national_id: string;
 
     @Prop({
         type: String,
         required: true
     })
-    TrackingId: string;
+    slot_id: string;
 
     @Prop({
         type: String,
         required: true
     })
-    ResultId: string;
+    centre_id: string;
 
     @Prop({
-        type: Mongoose.Schema.Types.Mixed
+        type: String,
+        required: true
     })
-    Itinerary: IItinerary;
+    centre_name: string;
 
     @Prop({
-        type: Mongoose.Schema.Types.Mixed
+        type: Date,
+        required: true
     })
-    response: any;
+    date: Date;
     
-    @Prop()
-    meta: string;
-    
     @Prop({
         type: String,
+        index: true,
         default: DocumentStatusType.Active,
         enum: DocumentStatusType
     })
     document_status: DocumentStatusType;
 }
 
-export type BookingRequestDocument = Document<BookingRequest>;
-export const BookingRequestSchema = SchemaFactory.createForClass(BookingRequest);
+export type ReservationDocument = Document<Reservation>;
+export const ReservationSchema = SchemaFactory.createForClass(Reservation);
 

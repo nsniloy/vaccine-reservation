@@ -8,17 +8,35 @@ import { Document } from 'mongoose';
 export class NurseHistory extends Document {
 
     @Prop({
+        type: Number,
+        required: true
+    })
+    number_of_nurses: number;
+
+    @Prop({
         type: String,
         required: true
     })
-    nurse_name: string;
+    centre_id: string;
+
+    @Prop({
+        type: String,
+        required: true
+    })
+    centre_name: string;
 
     @Prop({
         type: Date,
         required: true
     })
-    date: Date;
+    start_time: Date;
     
+    @Prop({
+        type: Date,
+        required: true
+    })
+    end_time: Date;
+
     @Prop({
         type: String,
         default: DocumentStatusType.Active,

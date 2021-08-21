@@ -18,7 +18,9 @@ services:
       - DB_NAME=vaccine-reservation
       - REDIS_HOST=redis
       - REDIS_PORT="6379"
-      - ENVIRONMENT=develop
+      - ENVIRONMENT=development
+      - EMAIL=homage.vaccination@gmail.com
+      - EMAIL_PWD=Homage@@singapore
 
     ports:
       - "6001:6001"

@@ -30,18 +30,51 @@ export class SlotRepositoryMongo extends SlotRepository {
         return slots;
     }
 
+    async reserveSlot(centre_id: string, start_time: Date, end_time: Date, session: any): Promise<ISlot> {
+        return await this.model.findOneAndUpdate(
+            {
+                centre_id: centre_id,
+                date: { $gte: start_time, $lte: end_time },
+                quota_remaining: { $gt: 0 }
+            },
+            {
+                $inc: {
+                    quota_remaining: -1
+                }
+            },
+            {
+                session,
+                new: true
+            }
+        )
+    }
+
+    async increaseQuota(id: string, count: number, session: any): Promise<void> {
+        await this.model.findByIdAndUpdate(
+            id,
+            {
+                $inc: {
+                    quota_remaining: count
+                }
+            },
+            {
+                session
+            }
+        )
+    }
+
     async removeByCentreId(id: string): Promise<void> {
         await this.model.updateMany(
             {
-                centre_id: id
+                centre_id: id,
+                is_booked: false
             },
             {
                 $set: {
                     document_status: DocumentStatusType.Deleted
                 }
             }
-        )
-        return;
+        );
     }
 
 }

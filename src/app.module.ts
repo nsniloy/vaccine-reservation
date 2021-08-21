@@ -4,8 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AdapterModule } from '@modules/adapter/adapter.module';
 import { CentreModule } from '@modules/centre/centre.module';
+import { ReservationModule } from './modules/reservation/reservation.module';
 
 
 @Module({
@@ -24,8 +24,8 @@ import { CentreModule } from '@modules/centre/centre.module';
       inject: [ConfigService],
     }),
     HttpModule,
-    AdapterModule,
-    CentreModule
+    CentreModule,
+    ReservationModule
   ],
   controllers: [AppController],
   providers: [AppService],

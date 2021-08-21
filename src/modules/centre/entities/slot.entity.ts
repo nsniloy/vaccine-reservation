@@ -9,9 +9,10 @@ export class Slot extends Document {
 
     @Prop({
         type: Date,
+        index: true,
         required: true
     })
-    time: Date;
+    date: Date;
 
     @Prop({
         type: String,
@@ -21,10 +22,11 @@ export class Slot extends Document {
     centre_id: string;
 
     @Prop({
-        type: Boolean,
-        default: false
+        type: Number,
+        required: true,
+        min: 0
     })
-    is_booked: boolean;
+    quota_remaining: number;
     
     @Prop({
         type: String,

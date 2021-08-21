@@ -47,9 +47,11 @@ export class CentreRepositoryMongo extends CentreRepository {
                 $set: {
                     document_status: DocumentStatusType.Deleted
                 }
+            },
+            {
+                new: true
             }
-        )
-        return;
+        );
     }
 
 }

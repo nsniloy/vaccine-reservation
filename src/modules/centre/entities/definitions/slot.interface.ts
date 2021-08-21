@@ -2,9 +2,9 @@ import { DocumentStatusType } from "@common/enums";
 
 export interface ISlot {
     _id?: any;
-    time: Date;
+    date: Date;
     centre_id: string;
-    is_booked?: boolean; 
+    quota_remaining: number; 
     document_status?: DocumentStatusType;
     createdAt?: Date;
     updatedAt?: Date;

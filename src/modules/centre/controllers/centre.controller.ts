@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CentreService } from '../centre.service';
+import { CentreService } from '../services/centre.service';
 import { AssignNurseDto } from '../dto/assign-nurse.dto';
 import { CreateCentreDto } from '../dto/create-centre.dto';
 
@@ -33,7 +33,7 @@ export class CentreController {
     }
   }
 
-  @Post()
+  @Post('assign-nurse')
   @ApiOperation({ description: 'Adds nurse to a centre for a particular date.' })
   async assignNurse(@Body() assignNurseDto: AssignNurseDto) {
     return {

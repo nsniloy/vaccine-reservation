@@ -14,7 +14,6 @@ export class NurseHistoryRepositoryMongo extends NurseHistoryRepository {
     }
     async create(data: INurseHistory): Promise<void> {
         await this.model.create(data);
-        return
     }
 
 }

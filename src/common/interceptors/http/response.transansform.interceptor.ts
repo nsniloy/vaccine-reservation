@@ -42,6 +42,10 @@ export class ResponseTransformInterceptor<T>
             delete data.success;
           }
 
+          if (data?.data) {
+            data = data.data;
+          }
+
           statusCode = statusCode || response.statusCode;
           response.status(statusCode);
           return {

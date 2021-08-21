@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CentreService } from './centre.service';
+import { CentreService } from './services/centre.service';
 import { CentreController } from './controllers/centre.controller';
 import { Centre, CentreSchema } from './entities/centre.entity';
 import { NurseHistory, NurseHistorySchema } from './entities/nurse-history.entity';
@@ -35,6 +35,9 @@ import { SlotRepositoryMongo } from './repository/slot.repository.mongoose';
       provide: NurseHistoryRepository,
       useClass: NurseHistoryRepositoryMongo
     }
+  ],
+  exports: [
+    CentreService
   ]
 })
-export class CentreModule {}
+export class CentreModule { }
