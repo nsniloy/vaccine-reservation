@@ -5,6 +5,7 @@ import { Slot, SlotDocument } from "../entities/slot.entity";
 import { SlotRepository } from "./definitions/slot.repository.abstract";
 import { ISlot } from "../entities/definitions/slot.interface";
 import { DocumentStatusType } from "@common/enums";
+import { SlotFilterDto } from "../dto/slot-filter.dto";
 
 @Injectable()
 export class SlotRepositoryMongo extends SlotRepository {
@@ -17,11 +18,12 @@ export class SlotRepositoryMongo extends SlotRepository {
         return await this.model.insertMany(data);
     }
 
-    async findByCentreId(id: string): Promise<ISlot[]> {
+    async findByCentreId(filter: SlotFilterDto): Promise<ISlot[]> {
         let slots: ISlot[] = await this.model.find(
             {
                 document_status: DocumentStatusType.Active,
-                centre_id: id
+                centre_id: filter.centre_id,
+                date: { $gte: filter.start_date, $lte: filter.end_date }
             },
             {
                 document_status: 0, __v: 0

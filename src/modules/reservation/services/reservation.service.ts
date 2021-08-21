@@ -63,11 +63,11 @@ export class ReservationService {
   }
 
   async findAll(query: ReservationFilterDto) {
-    let start_date = moment(query.start_date).tz('Asia/Singapore').startOf('day').format()
-    let end_date = moment(query.end_date).tz('Asia/Singapore').endOf('day').format()
+    let start_date = moment(query.start_date).startOf('day').toDate()
+    let end_date = moment(query.end_date).endOf('day').toDate()
     return await this.repository.findAll(
-      new Date(start_date),
-      new Date(end_date)
+      start_date,
+      end_date
     );
   }
 

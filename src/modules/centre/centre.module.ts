@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CentreService } from './services/centre.service';
 import { CentreController } from './controllers/centre.controller';
@@ -11,18 +11,30 @@ import { NurseHistoryRepository } from './repository/definitions/nurse-history.r
 import { SlotRepository } from './repository/definitions/slot.repository.abstract';
 import { NurseHistoryRepositoryMongo } from './repository/nurse-history.repository.mongoose';
 import { SlotRepositoryMongo } from './repository/slot.repository.mongoose';
+import { SlotController } from './controllers/slot.controller';
+import { SlotService } from './services/slot.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Centre.name, schema: CentreSchema }]),
     MongooseModule.forFeature([{ name: Slot.name, schema: SlotSchema }]),
     MongooseModule.forFeature([{ name: NurseHistory.name, schema: NurseHistorySchema }]),
+    CacheModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => (
+        configService.get('cache')
+      ),
+      inject: [ConfigService]
+    })
   ],
   controllers: [
-    CentreController
+    CentreController,
+    SlotController
   ],
   providers: [
     CentreService,
+    SlotService,
     {
       provide: CentreRepository,
       useClass: CentreRepositoryMongo

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable, Logger } from '@nestjs/common';
 import { AssignNurseDto } from '../dto/assign-nurse.dto';
 import { CreateCentreDto } from '../dto/create-centre.dto';
 import { ISlot } from '../entities/definitions/slot.interface';
@@ -6,20 +6,30 @@ import { CentreRepository } from '../repository/definitions/centre.repository.ab
 import * as moment from 'moment-timezone'
 import { SlotRepository } from '../repository/definitions/slot.repository.abstract';
 import { NurseHistoryRepository } from '../repository/definitions/nurse-history.repository.abstract';
-import { INurseHistory } from '../entities/definitions/nurse-history.interface';
+import { Cache } from 'cache-manager';
+
 @Injectable()
 export class CentreService {
   constructor(
+    @Inject(CACHE_MANAGER) private readonly cache: Cache,
     private readonly centreRepository: CentreRepository,
     private readonly slotRepository: SlotRepository,
     private readonly nurseHistoryRepository: NurseHistoryRepository,
   ) { }
   async create(createCentreDto: CreateCentreDto) {
-    return await this.centreRepository.create(createCentreDto);
+    let created_centre = await this.centreRepository.create(createCentreDto);
+    let all_centres = await this.centreRepository.findAll()
+    this.cache.set('reservation-centres', JSON.stringify(all_centres), { ttl: 60 * 60 * 24 })
+    return created_centre
   }
 
   async findAll() {
-    return await this.centreRepository.findAll();
+    let all_centres = JSON.parse(await this.cache.get('reservation-centres'))
+    if (!all_centres) {
+      all_centres = await this.centreRepository.findAll()
+      await this.cache.set('reservation-centres', JSON.stringify(all_centres), { ttl: 60 * 60 * 24 })
+    }
+    return all_centres;
   }
 
   async remove(id: string) {
@@ -47,8 +57,8 @@ export class CentreService {
   }
 
   async getSlotAndUpdateQuota(centre_id: string, date: Date, session: any) {
-    let start_time = moment(date).tz('Asia/Singapore').startOf('day').format()
-    let end_time = moment(date).tz('Asia/Singapore').endOf('day').format()
+    let start_time = moment(date).startOf('day').format()
+    let end_time = moment(date).endOf('day').format()
     return await this.slotRepository.reserveSlot(
       centre_id,
       new Date(start_time),
@@ -62,8 +72,8 @@ export class CentreService {
   }
 
   private generateSlots(assignNurseDto: AssignNurseDto, duration: number): ISlot[] {
-    let start_time = moment(assignNurseDto.start_time).tz('Asia/Singapore')
-    let end_time = moment(assignNurseDto.end_time).tz('Asia/Singapore')
+    let start_time = moment(assignNurseDto.start_time)
+    let end_time = moment(assignNurseDto.end_time)
     let { centre_id } = assignNurseDto
     let slots: ISlot[] = []
     while (start_time.isBefore(end_time)) {
