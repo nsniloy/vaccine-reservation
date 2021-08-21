@@ -1,4 +1,4 @@
-import { DocumentStatusType } from "@common/enums";
+import { DocumentStatusType } from "../../../../common/enums";
 
 export interface ISlot {
     _id?: any;

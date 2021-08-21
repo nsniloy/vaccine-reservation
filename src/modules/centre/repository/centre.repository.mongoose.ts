@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import { Centre, CentreDocument } from "../entities/centre.entity";
 import { CentreRepository } from "./definitions/centre.repository.abstract";
 import { ICentre } from "../entities/definitions/centre.interface";
-import { DocumentStatusType } from "@common/enums";
+import { DocumentStatusType } from "../../../common/enums";
 
 @Injectable()
 export class CentreRepositoryMongo extends CentreRepository {

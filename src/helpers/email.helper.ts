@@ -8,8 +8,6 @@ export class EmailHelper {
     private configService: ConfigService
   ){}
   async sendEmail(email: string, subject: string, body: string) {
-    console.log(this.configService.get('email'));
-    console.log(this.configService.get('email_password'));
     
     let transporter = createTransport({
       host: 'smtp.gmail.com',

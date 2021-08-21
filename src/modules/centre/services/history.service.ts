@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import * as moment from 'moment-timezone'
-import { SlotRepository } from '../repository/definitions/slot.repository.abstract';
 import { SlotFilterDto } from '../dto/slot-filter.dto';
 import { NurseHistoryRepository } from '../repository/definitions/nurse-history.repository.abstract';
 @Injectable()

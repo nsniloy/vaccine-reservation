@@ -13,7 +13,7 @@ export class CentreController {
   @ApiOperation({ description: 'Creates a centre.' })
   async create(@Body() createCentreDto: CreateCentreDto) {
     return {
-      ...await this.centreService.create(createCentreDto),
+      data: await this.centreService.create(createCentreDto),
       message: 'Centre created successfully!'
     }
   }

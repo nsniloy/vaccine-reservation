@@ -4,7 +4,7 @@ import { Model } from "mongoose";
 import { Slot, SlotDocument } from "../entities/slot.entity";
 import { SlotRepository } from "./definitions/slot.repository.abstract";
 import { ISlot } from "../entities/definitions/slot.interface";
-import { DocumentStatusType } from "@common/enums";
+import { DocumentStatusType } from "../../../common/enums";
 import { SlotFilterDto } from "../dto/slot-filter.dto";
 
 @Injectable()
@@ -30,6 +30,23 @@ export class SlotRepositoryMongo extends SlotRepository {
             }
         )
         return slots;
+    }
+
+    async checkIfExists(filter: SlotFilterDto): Promise<boolean> {
+        let slot: ISlot = await this.model.findOne(
+            {
+                document_status: DocumentStatusType.Active,
+                centre_id: filter.centre_id,
+                date: { $gte: filter.start_date, $lte: filter.end_date }
+            },
+            {
+                document_status: 0, __v: 0
+            }
+        )
+        if (slot) {
+            return true
+        }
+        return false;
     }
 
     async reserveSlot(centre_id: string, start_time: Date, end_time: Date, session: any): Promise<ISlot> {

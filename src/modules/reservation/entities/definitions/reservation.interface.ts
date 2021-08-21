@@ -1,4 +1,4 @@
-import { DocumentStatusType } from "@common/enums";
+import { DocumentStatusType } from "../../../../common/enums";
 
 export interface IReservation {
     full_name: string;

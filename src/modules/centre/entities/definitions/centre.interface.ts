@@ -1,4 +1,4 @@
-import { DocumentStatusType } from "@common/enums";
+import { DocumentStatusType } from "../../../../common/enums";
 
 export interface ICentre {
     _id?: any;

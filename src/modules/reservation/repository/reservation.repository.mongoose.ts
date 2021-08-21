@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { DocumentStatusType } from "@common/enums";
+import { DocumentStatusType } from "../../../common/enums";
 import { IReservation } from "../entities/definitions/reservation.interface";
 import { Reservation } from "../entities/reservation.entity";
 import { ReservationRepository } from "./definitions/reservation.repository.abstract";
@@ -32,9 +32,10 @@ export class ReservationRepositoryMongo extends ReservationRepository {
         return reservation;
     }
 
-    async findAll(start_date: Date, end_date: Date): Promise<IReservation[]> {
+    async findAll(start_date: Date, end_date: Date, centre_id:string): Promise<IReservation[]> {
         let reservations: IReservation[] = await this.model.find(
             {
+                centre_id: centre_id,
                 date: { $gte: start_date, $lte: end_date },
                 document_status: DocumentStatusType.Active
             },

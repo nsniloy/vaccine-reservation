@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CentreModule } from '@modules/centre/centre.module';
+import { CentreModule } from './modules/centre/centre.module';
 import { ReservationModule } from './modules/reservation/reservation.module';
 
 

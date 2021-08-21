@@ -10,4 +10,8 @@ export class ReservationFilterDto {
     @ApiProperty()
     @IsDate()
     end_date: Date;
+
+    @ApiProperty()
+    @IsString()
+    centre_id: string;
 }

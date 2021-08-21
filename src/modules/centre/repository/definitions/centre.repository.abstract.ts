@@ -1,4 +1,4 @@
-import { ICentre } from "@modules/centre/entities/definitions/centre.interface";
+import { ICentre } from "../../../centre/entities/definitions/centre.interface";
 
 export abstract class CentreRepository {
     abstract create(data: ICentre): Promise<ICentre>;

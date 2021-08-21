@@ -1,4 +1,4 @@
-import { DocumentStatusType } from '@common/enums/status.enum';
+import { DocumentStatusType } from '../../../common/enums/status.enum';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 

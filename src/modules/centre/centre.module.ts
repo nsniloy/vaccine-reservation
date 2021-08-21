@@ -53,7 +53,8 @@ import { HistoryService } from './services/history.service';
     }
   ],
   exports: [
-    CentreService
+    CentreService,
+    SlotService
   ]
 })
 export class CentreModule { }

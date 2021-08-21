@@ -31,7 +31,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     response.status(status).json({
       errorType,
       message,
-      timestamp: new Date().getTime(),
     });
   }
 }

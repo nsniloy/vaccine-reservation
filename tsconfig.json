@@ -11,12 +11,12 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "paths": {
-      "@common/*": ["src/common/*"],
-      "@core/*": ["src/core/*"],
-      "@config": ["src/config"],
-      "@helpers": ["src/helpers"],
-      "@modules/*": ["src/modules/*"]
-    }
+    // "paths": {
+    //   "@common/*": ["src/common/*"],
+    //   "@core/*": ["src/core/*"],
+    //   "@config": ["src/config"],
+    //   "@helpers": ["src/helpers"],
+    //   "@modules/*": ["src/modules/*"]
+    // }
   }
 }

@@ -1,5 +1,5 @@
-import { ISlot } from '@modules/centre/entities/definitions/slot.interface';
-import { CentreService } from '@modules/centre/services/centre.service';
+import { ISlot } from '../../centre/entities/definitions/slot.interface';
+import { CentreService } from '../../centre/services/centre.service';
 import { BadRequestException, HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
@@ -9,13 +9,15 @@ import * as moment from 'moment-timezone'
 import { IReservation } from '../entities/definitions/reservation.interface';
 import { ReservationRepository } from '../repository/definitions/reservation.repository.abstract';
 import { UpdateReservationDto } from '../dto/update-reservation.dto';
-import { EmailHelper } from 'src/helpers/email.helper';
+import { EmailHelper } from '../../../helpers/email.helper';
+import { SlotService } from '../../centre/services/slot.service';
 
 @Injectable()
 export class ReservationService {
   constructor(
     @InjectConnection() private readonly connection: Connection,
     private readonly centreService: CentreService,
+    private readonly slotService: SlotService,
     private readonly repository: ReservationRepository,
     private readonly emailHelper: EmailHelper,
   ) { }
@@ -23,10 +25,22 @@ export class ReservationService {
     if (moment(createReservationDto.date).isBefore(moment().endOf('day'))) {
       throw new BadRequestException('Please select a future date for reservation!')
     }
-    let exists = await this.repository.findByNationalId(createReservationDto.national_id)
-    if (exists) {
+    let reservation_exists = await this.repository.findByNationalId(createReservationDto.national_id)
+    if (reservation_exists) {
       throw new BadRequestException(
         `You have already taken a reservation on ${moment(createReservationDto.date).format('YYYY-MM-DD')}`
+      )
+    }
+    let start_date = moment(createReservationDto.date).startOf('day').toDate()
+    let end_date = moment(createReservationDto.date).endOf('day').toDate()
+    let slot_exists: boolean = await this.slotService.checkIfExists({
+      centre_id: createReservationDto.centre_id,
+      start_date: start_date,
+      end_date: end_date
+    })
+    if (!slot_exists) {
+      throw new BadRequestException(
+        `No slot available on ${start_date}. Please try with another one`
       )
     }
     const session = await this.connection.startSession();
@@ -37,10 +51,6 @@ export class ReservationService {
         createReservationDto.date,
         session
       )
-      if (!slot) {
-        session.abortTransaction()
-        throw new HttpException({ message: 'No slot available on this date. Please try with another one.' }, HttpStatus.CONFLICT)
-      }
       let reservation: IReservation = {
         slot_id: slot._id,
         date: slot.date,
@@ -67,7 +77,8 @@ export class ReservationService {
     let end_date = moment(query.end_date).endOf('day').toDate()
     return await this.repository.findAll(
       start_date,
-      end_date
+      end_date,
+      query.centre_id
     );
   }
 
