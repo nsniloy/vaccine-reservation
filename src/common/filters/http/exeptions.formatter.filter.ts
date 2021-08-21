@@ -25,7 +25,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     const requestDetails = {
       method: request.method,
-      headers: request.headers,
       query_params: request.query,
       body: request.body,
       requested_endpoint: request.originalUrl,

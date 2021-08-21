@@ -9,7 +9,7 @@ export class SlotController {
   constructor(private readonly slotService: SlotService) {}
 
   @Get()
-  @ApiOperation({ description: 'Shows all slots' })
+  @ApiOperation({ description: 'Shows all slots of a company between a date range' })
   async findByCentreId(@Query() filter: SlotFilterDto) {
     return await this.slotService.findByCentreId(filter);
   }

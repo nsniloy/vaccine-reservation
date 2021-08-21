@@ -18,16 +18,10 @@ export class RequestLoggingInterceptor implements NestInterceptor {
       const request = ctx.getRequest<Request>();
       const response = ctx.getResponse<Response>();
 
-      const request_id = uuidv4().split('-').join('');
-
-      request.headers['X-Request-Id'] = request_id;
-      response.set('X-Request-Id', request_id);
-
       return next.handle().pipe(
         tap((data) => {
           const requestDetails = {
             method: request.method,
-            headers: request.headers,
             query_params: request.query,
             body: request.body,
             requested_endpoint: request.originalUrl,

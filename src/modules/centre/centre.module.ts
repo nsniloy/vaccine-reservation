@@ -12,8 +12,10 @@ import { SlotRepository } from './repository/definitions/slot.repository.abstrac
 import { NurseHistoryRepositoryMongo } from './repository/nurse-history.repository.mongoose';
 import { SlotRepositoryMongo } from './repository/slot.repository.mongoose';
 import { SlotController } from './controllers/slot.controller';
+import { HistoryController } from './controllers/nurse-history.controller';
 import { SlotService } from './services/slot.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { HistoryService } from './services/history.service';
 
 @Module({
   imports: [
@@ -30,11 +32,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   ],
   controllers: [
     CentreController,
-    SlotController
+    SlotController,
+    HistoryController,
   ],
   providers: [
     CentreService,
     SlotService,
+    HistoryService,
     {
       provide: CentreRepository,
       useClass: CentreRepositoryMongo
