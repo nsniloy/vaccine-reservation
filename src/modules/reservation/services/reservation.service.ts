@@ -43,6 +43,7 @@ export class ReservationService {
         `No slot available on ${start_date}. Please try with another one`
       )
     }
+    let centre = await this.centreService.findOne(createReservationDto.centre_id)
     const session = await this.connection.startSession();
     session.startTransaction();
     try {
@@ -57,13 +58,12 @@ export class ReservationService {
         full_name: createReservationDto.full_name,
         email: createReservationDto.email,
         national_id: createReservationDto.national_id,
-        centre_name: createReservationDto.centre_name,
         centre_id: createReservationDto.centre_id
       }
       let created_reservation: IReservation[] = await this.repository.create(reservation, session);
       await session.commitTransaction();
       session.endSession();
-      this.sendEmail(created_reservation[0]);
+      this.sendEmail(created_reservation[0], centre.name);
       return created_reservation[0]
     } catch (error) {
       Logger.error(error);
@@ -84,6 +84,18 @@ export class ReservationService {
 
   async update(id: string, updateReservationDto: UpdateReservationDto) {
     let reservation = await this.repository.findOne(id)
+    let start_date = moment(updateReservationDto.date).startOf('day').toDate()
+    let end_date = moment(updateReservationDto.date).endOf('day').toDate()
+    let slot_exists: boolean = await this.slotService.checkIfExists({
+      centre_id: updateReservationDto.centre_id,
+      start_date: start_date,
+      end_date: end_date
+    })
+    if (!slot_exists) {
+      throw new BadRequestException(
+        `No slot available on ${moment(start_date).format('YYYY-MM-DD')}. Please try with another one`
+      )
+    }
     const session = await this.connection.startSession();
     session.startTransaction();
     try {
@@ -92,15 +104,10 @@ export class ReservationService {
         updateReservationDto.date,
         session
       )
-      if (!slot) {
-        session.abortTransaction()
-        throw new HttpException({ message: 'No slot available on the selected date. Please try with another one.' }, HttpStatus.CONFLICT)
-      }
       await this.centreService.undoSlotBooking(reservation.slot_id, session);
       let reservation_update: IReservation = {
         slot_id: slot._id,
         date: slot.date,
-        centre_name: updateReservationDto.centre_name,
         email: reservation.email,
         centre_id: updateReservationDto.centre_id,
         full_name: reservation.full_name,
@@ -134,10 +141,10 @@ export class ReservationService {
     return
   }
 
-  private sendEmail(created_reservation: IReservation) {
+  private sendEmail(created_reservation: IReservation, centre_name: string) {
     let body = `Your vaccine reservation is successful. Please be present in time.<br>
     Name: ${created_reservation.full_name}<br>
-    Place: ${created_reservation.centre_name}<br>
+    Place: ${centre_name}<br>
     Time: ${moment(created_reservation.date).format('MMMM Do YYYY, h:mm:ss a')}`
     this.emailHelper.sendEmail(
       'niloy.android@gmail.com',

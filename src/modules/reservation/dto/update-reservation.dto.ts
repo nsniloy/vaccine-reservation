@@ -9,9 +9,5 @@ export class UpdateReservationDto {
 
     @ApiProperty()
     @IsString()
-    centre_name: string
-
-    @ApiProperty()
-    @IsString()
     centre_id: string
 }

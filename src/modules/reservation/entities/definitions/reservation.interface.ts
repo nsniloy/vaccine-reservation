@@ -6,7 +6,6 @@ export interface IReservation {
     national_id: string;
     slot_id: string;
     centre_id: string;
-    centre_name: string;
     date: Date;
     document_status?: DocumentStatusType;
     createdAt?: Date;

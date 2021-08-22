@@ -39,12 +39,6 @@ export class Reservation extends Document {
     centre_id: string;
 
     @Prop({
-        type: String,
-        required: true
-    })
-    centre_name: string;
-
-    @Prop({
         type: Date,
         required: true
     })

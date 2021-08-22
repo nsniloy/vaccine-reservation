@@ -28,7 +28,7 @@ export class SlotRepositoryMongo extends SlotRepository {
             {
                 document_status: 0, __v: 0
             }
-        )
+        ).sort({ createdAt: -1 })
         return slots;
     }
 

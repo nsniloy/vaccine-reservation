@@ -41,7 +41,6 @@ describe('ReservationController', () => {
           "full_name": "Md. Nabid Salehin Niloy",
           "email": "niloy.android@gmail.com",
           "national_id": (new Date().getTime()).toString(),
-          "centre_name": "Centre 2",
           "centre_id": "612172b875348a0fb19c0991"
         })
 

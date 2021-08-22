@@ -24,7 +24,7 @@ services:
 
     ports:
       - "6001:6001"
-    command: bash -c "npm test && npm run start:debug"
+    command: bash -c "npm run start:debug"
     volumes:
       - ./src:/app/src
     # depends_on:

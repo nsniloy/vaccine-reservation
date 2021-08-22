@@ -18,8 +18,7 @@ export class CentreService {
   ) { }
   async create(createCentreDto: CreateCentreDto) {
     let created_centre = await this.centreRepository.create(createCentreDto);
-    let all_centres = await this.centreRepository.findAll()
-    this.cache.set('reservation-centres', JSON.stringify(all_centres), { ttl: 60 * 60 * 24 })
+    this.resetCache()
     return created_centre
   }
 
@@ -32,9 +31,13 @@ export class CentreService {
     return all_centres;
   }
 
+  async findOne(id:string) {
+    return await this.centreRepository.findOne(id);
+  }
+
   async remove(id: string) {
     await this.centreRepository.remove(id);
-
+    this.resetCache()
     //removing unbooked slots for the deleted center
     await this.slotRepository.removeByCentreId(id)
     return
@@ -87,5 +90,10 @@ export class CentreService {
       start_time = start_time.add(duration, 'minutes')
     }
     return slots
+  }
+
+  private async resetCache(){
+    let all_centres = await this.centreRepository.findAll()
+    this.cache.set('reservation-centres', JSON.stringify(all_centres), { ttl: 60 * 60 * 24 })
   }
 }

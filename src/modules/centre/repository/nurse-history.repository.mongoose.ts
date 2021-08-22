@@ -26,7 +26,7 @@ export class NurseHistoryRepositoryMongo extends NurseHistoryRepository {
             {
                 document_status: 0, __v: 0
             }
-        )
+        ).sort({ createdAt: -1 })
         return history;
     }
 
