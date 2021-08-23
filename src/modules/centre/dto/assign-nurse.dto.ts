@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsPositive, IsString } from "class-validator";
+import { IsArray, IsDate, IsPositive, IsString } from "class-validator";
 
 export class AssignNurseDto {
 
@@ -12,10 +12,14 @@ export class AssignNurseDto {
     number_of_nurses: number;
     
     @ApiProperty()
-    @IsDate()
-    start_time: Date;
+    @IsString()
+    start_time: string;
 
     @ApiProperty()
-    @IsDate()
-    end_time: Date;
+    @IsString()
+    end_time: string;
+
+    @ApiProperty()
+    @IsArray()
+    dates: string[];
 }
