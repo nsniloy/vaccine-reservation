@@ -3,14 +3,14 @@ import { AppModule } from './app.module';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
-import { configSwagger } from '@config';
-import { HttpExceptionFilter } from '@common/exceptions';
+import { configSwagger } from './config';
+import { HttpExceptionFilter } from './common/exceptions';
 import {
   RequestLoggingInterceptor,
   ResponseTransformInterceptor,
-} from '@common/interceptors/http';
+} from './common/interceptors/http';
 import { ConfigService } from '@nestjs/config';
-import { MongoValidationErrorFilter } from '@common/filters/db/exceptions-mongo.filter';
+import { MongoValidationErrorFilter } from './common/filters/db/exceptions-mongo.filter';
 
 const bootstrap = async () => {
   const app = await NestFactory.create(AppModule);

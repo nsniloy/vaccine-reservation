@@ -114,68 +114,6 @@ describe('CentreController', () => {
     });
   });
 
-  describe('AssignNurse', () => {
-
-    it('/centre/assign-nurse (POST) create slots', async () => {
-      let response = await request(app.getHttpServer())
-        .post('/centre/assign-nurse')
-        .set('Content-Type', 'application/json')
-        .send({
-          "centre_id": "6122ef34bbd68e73933685a1",
-          "number_of_nurses": 2,
-          "start_time": "2021-09-21T10:00:00.000Z",
-          "end_time": "2021-09-21T20:00:00.000Z"
-        })
-              
-      expect(response.status).toBe(HttpStatus.CREATED);
-      expect(response.body.success).toEqual(true);
-      expect(response.body.message).toEqual('Nurse assigned successfully!');
-    });
-
-    it('/centre/assign-nurse (POST) should throw bad request exception.', async () => {
-      let response = await request(app.getHttpServer())
-        .post('/centre/assign-nurse')
-        .set('Content-Type', 'application/json')
-        .send({
-          "centre_id": "612172b875348a0fb19c0991",
-          "number_of_nurses": 0,
-          "start_time": "2021-09-21T10:00:00.000Z",
-          "end_time": "2021-09-21T20:00:00.000Z"
-        })    
-        expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    });
-
-
-    it('/centre/assign-nurse (POST) create slots', async () => {
-      let response = await request(app.getHttpServer())
-        .post('/centre/assign-nurse')
-        .set('Content-Type', 'application/json')
-        .send({
-          "centre_id": "612172b875348a0fb19c0991",
-          "number_of_nurses": 2,
-          "start_time": "2021-09-21T10:00:00.000Z",
-          "end_time": "2021-09-21T20:00:00.000Z"
-        })
-              
-      expect(response.status).toBe(HttpStatus.CREATED);
-      expect(response.body.success).toEqual(true);
-      expect(response.body.message).toEqual('Nurse assigned successfully!');
-    });
-
-    it('/centre/assign-nurse (POST) should throw bad request exception.', async () => {
-      let response = await request(app.getHttpServer())
-        .post('/centre/assign-nurse')
-        .set('Content-Type', 'application/json')
-        .send({
-          "centre_id": "612172b875348a0fb19c0991",
-          "number_of_nurses": 2,
-          "start_time": "",
-          "end_time": "2021-09-21T20:00:00.000Z"
-        })    
-        expect(response.status).toEqual(HttpStatus.BAD_REQUEST);
-    });
-  });
-
   afterAll(async (done) => {
     await app.close();
     done()
