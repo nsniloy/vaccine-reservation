@@ -14,8 +14,6 @@ export class SlotService {
   }
 
   async checkIfExists(filter: SlotFilterDto) {
-    filter.start_date = moment(filter.start_date).startOf('day').toDate()
-    filter.end_date = moment(filter.end_date).startOf('day').toDate()
     return await this.slotRepository.checkIfExists(filter);
   }
 }

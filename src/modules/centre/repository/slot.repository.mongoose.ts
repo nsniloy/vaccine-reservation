@@ -35,7 +35,6 @@ export class SlotRepositoryMongo extends SlotRepository {
     async checkIfExists(filter: SlotFilterDto): Promise<boolean> {
         let slot: ISlot = await this.model.findOne(
             {
-                document_status: DocumentStatusType.Active,
                 centre_id: filter.centre_id,
                 date: { $gte: filter.start_date, $lte: filter.end_date }
             },

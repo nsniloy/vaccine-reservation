@@ -31,7 +31,7 @@ export class CentreService {
     return all_centres;
   }
 
-  async findOne(id:string) {
+  async findOne(id: string) {
     return await this.centreRepository.findOne(id);
   }
 
@@ -53,8 +53,8 @@ export class CentreService {
       centre_id: centre._id,
       centre_name: centre.name,
       number_of_nurses: assignNurseDto.number_of_nurses,
-      start_time: new Date(assignNurseDto.dates[0]+" "+ assignNurseDto.start_time),
-      end_time: new Date(assignNurseDto.dates[1]+" "+ assignNurseDto.end_time),
+      start_time: new Date(assignNurseDto.dates[0] + " " + assignNurseDto.start_time),
+      end_time: new Date(assignNurseDto.dates[1] + " " + assignNurseDto.end_time),
     })
     return {
       slots: created_slots
@@ -77,22 +77,23 @@ export class CentreService {
   }
 
   private generateSlots(assignNurseDto: AssignNurseDto, duration: number): ISlot[] {
-    if (assignNurseDto.dates.length !=2) {
+    if (assignNurseDto.dates.length != 2) {
       throw new BadRequestException('Please select start date and end date')
     }
     let start_date = moment(assignNurseDto.dates[0])
-    let end_date = moment(assignNurseDto.dates[1])
+    let end_date = moment(assignNurseDto.dates[1]).add(1, 'day')
     if (!start_date.isBefore(end_date)) {
       throw new BadRequestException('End date must be greater than start date')
     }
-    let start_time = moment(assignNurseDto.start_time,'HH:mm')
-    let end_time = moment(assignNurseDto.end_time,'HH:mm')
-    
+
     let { centre_id } = assignNurseDto
     let slots: ISlot[] = []
     while (start_date.isBefore(end_date)) {
+      let start_time = moment(assignNurseDto.start_time, 'HH:mm')
+      let end_time = moment(assignNurseDto.end_time, 'HH:mm')
       while (start_time.isBefore(end_time)) {
-        let date = new Date(start_date.format('YYYY-MM-DD')+" "+moment(start_time.toString(),'HH:mm').format('HH:mm'))
+        console.log(start_date.format('YYYY-MM-DD') + " " + start_time.format('HH:mm'));
+        let date = new Date(start_date.format('YYYY-MM-DD') + " " + start_time.format('HH:mm'))
         let quota_remaining = assignNurseDto.number_of_nurses
         slots.push({
           date,
@@ -106,7 +107,7 @@ export class CentreService {
     return slots
   }
 
-  private async resetCache(){
+  private async resetCache() {
     let all_centres = await this.centreRepository.findAll()
     this.cache.set('reservation-centres', JSON.stringify(all_centres), { ttl: 60 * 60 * 24 })
   }
