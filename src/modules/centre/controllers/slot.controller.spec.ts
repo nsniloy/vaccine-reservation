@@ -34,7 +34,7 @@ describe('SlotController', () => {
     it('/slot (Get) should return all the slots of a companye in a date range.', async () => {
       let start_date = "2021-08-01"
       let end_date = "2021-10-01"
-      let centre_id = "612017c1edaf9c005b858ced"
+      let centre_id = "6122eb98a6a5790020cc09c8"
       let response = await request(app.getHttpServer())
         .get(`/slot?start_date=${start_date}&end_date=${end_date}&centre_id=${centre_id}`)
         .set('Content-Type', 'application/json')
@@ -47,7 +47,7 @@ describe('SlotController', () => {
     it('/slot (Get) should return all the slots of a companye in a date range.', async () => {
       let start_date = "2021-08-06"
       let end_date = "2021-10-06"
-      let centre_id = "612017c1edaf9c005b858ced"
+      let centre_id = "6122eb98a6a5790020cc09c8"
       let response = await request(app.getHttpServer())
         .get(`/slot?start_date=${start_date}&end_date=${end_date}&centre_id=${centre_id}`)
         .set('Content-Type', 'application/json')

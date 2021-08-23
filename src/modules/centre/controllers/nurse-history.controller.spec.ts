@@ -34,7 +34,7 @@ describe('SlotController', () => {
     it('/history (Get) should return all the histories of a companye in a date range', async () => {
       let start_date = "2021-08-01"
       let end_date = "2021-10-01"
-      let centre_id = "612172b875348a0fb19c0991"
+      let centre_id = "6122eb98a6a5790020cc09c8"
       let response = await request(app.getHttpServer())
         .get(`/history?start_date=${start_date}&end_date=${end_date}&centre_id=${centre_id}`)
         .set('Content-Type', 'application/json')
@@ -47,7 +47,7 @@ describe('SlotController', () => {
     it('/history (Get) should return all the histories of a companye in a date range', async () => {
       let start_date = "2021-08-11"
       let end_date = "2021-10-11"
-      let centre_id = "612172b875348a0fb19c0991"
+      let centre_id = "6122eb98a6a5790020cc09c8"
       let response = await request(app.getHttpServer())
         .get(`/history?start_date=${start_date}&end_date=${end_date}&centre_id=${centre_id}`)
         .set('Content-Type', 'application/json')

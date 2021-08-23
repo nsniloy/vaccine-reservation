@@ -41,7 +41,7 @@ describe('ReservationController', () => {
           "full_name": "Md. Nabid Salehin Niloy",
           "email": "niloy.android@gmail.com",
           "national_id": (new Date().getTime()).toString(),
-          "centre_id": "612172b875348a0fb19c0991"
+          "centre_id": "6122eb98a6a5790020cc09c8"
         })
 
       expect(response.status).toBe(HttpStatus.BAD_REQUEST);
@@ -54,7 +54,7 @@ describe('ReservationController', () => {
     it('/reservation (Get) should return all the reservations', async () => {
       let start_date = "2021-08-01"
       let end_date = "2021-10-01"
-      let centre_id = "612172b875348a0fb19c0991"
+      let centre_id = "6122eb98a6a5790020cc09c8"
       let response = await request(app.getHttpServer())
         .get(`/reservation?start_date=${start_date}&end_date=${end_date}&centre_id=${centre_id}`)
         .set('Content-Type', 'application/json')
@@ -68,7 +68,7 @@ describe('ReservationController', () => {
     it('/reservation (Get) should return all the reservations', async () => {
       let start_date = "2021-09-01"
       let end_date = "2021-10-11"
-      let centre_id = "612172b875348a0fb19c0991"
+      let centre_id = "6122eb98a6a5790020cc09c8"
       let response = await request(app.getHttpServer())
         .get(`/reservation?start_date=${start_date}&end_date=${end_date}&centre_id=${centre_id}`)
         .set('Content-Type', 'application/json')

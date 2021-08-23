@@ -121,7 +121,7 @@ describe('CentreController', () => {
         .post('/centre/assign-nurse')
         .set('Content-Type', 'application/json')
         .send({
-          "centre_id": "612172b875348a0fb19c0991",
+          "centre_id": "6122ef34bbd68e73933685a1",
           "number_of_nurses": 2,
           "start_time": "2021-09-21T10:00:00.000Z",
           "end_time": "2021-09-21T20:00:00.000Z"
